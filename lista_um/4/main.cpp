@@ -8,7 +8,7 @@ int main(int argc, const char* argv[])
 {
 
     //1.
-    println("Criando a lista encadeada...");
+    println("Criando a lista encadeada circular...");
     CircularLinkedList *list = new CircularLinkedList();
        
     //5.
@@ -43,7 +43,7 @@ int main(int argc, const char* argv[])
     printf("index of %d: %d\n", 50, list->indexOf(50));
     
     //7.   
-    /*printf("normal remove(%d)\n", 10);
+    printf("normal remove(%d)\n", 10);
     list->remove(10);
     printf("contains(%d): %d\n", 10, list->contains(10));
     printf("index of %d: %d\n", 10, list->indexOf(10));
@@ -63,11 +63,10 @@ int main(int argc, const char* argv[])
 
     printf("list is empty?: %d\n", list->isEmpty());
     std::cout << "normal print:" << std::endl;
-    list->print();*/
+    list->print();
 
     delete list;
 
-    
     return 0;
 }
 

@@ -1,17 +1,17 @@
 #include <iostream>
-#include "circular_linked_list.h"
+#include "circular_doubly_linked_list.h"
 
-CircularLinkedList::CircularLinkedList()
+CircularDoublyLinkedList::CircularDoublyLinkedList()
 {
     ref = NULL;
 }
 
-bool CircularLinkedList::contains(const int value) const 
+bool CircularDoublyLinkedList::contains(const int value) const 
 {
     return indexOf(value) != -1;
 }
 
-void CircularLinkedList::free()
+void CircularDoublyLinkedList::free()
 {
     if (!isEmpty()) {
         while (ref->next != ref) {
@@ -24,7 +24,7 @@ void CircularLinkedList::free()
     }
 }
 
-int CircularLinkedList::indexOf(const int value) const
+int CircularDoublyLinkedList::indexOf(const int value) const
 {
     if (!isEmpty()) {
         int i = 0;
@@ -40,26 +40,35 @@ int CircularLinkedList::indexOf(const int value) const
     return -1;
 }
 
-void CircularLinkedList::insert(const int value)
+void CircularDoublyLinkedList::insert(const int value)
 {
     Node* _new = new Node();
     _new->value = value;
     
     if (ref == NULL) {
-        _new->next = _new;  
+        _new->next = _new;
+        _new->previous = _new;
     } else {
         _new->next = ref->next;
+        _new->previous = ref;
         ref->next = _new;
+
+        Node *_previous = ref->previous;
+        while (_previous->previous != ref) {
+            _previous = _previous->previous;
+        }
+        _previous->previous = _new;
+
     }
     ref = _new;
 }
 
-bool CircularLinkedList::isEmpty() const 
+bool CircularDoublyLinkedList::isEmpty() const 
 {
     return ref == NULL;
 }
 
-void CircularLinkedList::print() const
+void CircularDoublyLinkedList::print() const
 {
     if (!isEmpty()) {
         Node *current = ref->next;
@@ -71,7 +80,7 @@ void CircularLinkedList::print() const
     std::cout << std::endl;
 }
 
-void CircularLinkedList::printRecursively()
+void CircularDoublyLinkedList::printRecursively()
 { 
     if (!isEmpty()) {
         __printRecursively(ref->next);
@@ -79,7 +88,7 @@ void CircularLinkedList::printRecursively()
     std::cout << std::endl;
 }
 
-void CircularLinkedList::remove(const int value)
+void CircularDoublyLinkedList::remove(const int value)
 {
     if (!isEmpty()) {
         Node *current = ref;
@@ -87,6 +96,7 @@ void CircularLinkedList::remove(const int value)
             if (current->next->value == value) {
                 Node *nodeRemove = current->next;
                 current->next = nodeRemove->next;
+                current->next->previous = current;
                 if (nodeRemove == ref) {
                     if (nodeRemove == current) {
                         ref = NULL;
@@ -103,14 +113,14 @@ void CircularLinkedList::remove(const int value)
     
 }
 
-void CircularLinkedList::removeRecursively(const int value)
+void CircularDoublyLinkedList::removeRecursively(const int value)
 {
     if (!isEmpty()) {
         __removeRecursively(ref->next, value);
     }
 }
 
-void CircularLinkedList::__printRecursively(Node *node)
+void CircularDoublyLinkedList::__printRecursively(Node *node)
 {
     std::cout << node->value << " ";
     if (node != ref) {
@@ -119,7 +129,7 @@ void CircularLinkedList::__printRecursively(Node *node)
 }
 
 
-CircularLinkedList::Node* CircularLinkedList::__removeRecursively(Node* node, const int value) 
+CircularDoublyLinkedList::Node* CircularDoublyLinkedList::__removeRecursively(Node* node, const int value) 
 {
     if (node == ref) {
         
@@ -133,6 +143,7 @@ CircularLinkedList::Node* CircularLinkedList::__removeRecursively(Node* node, co
         if (node->next->value == value) {
             Node *nodeRemove = node->next;
             node->next = nodeRemove->next;
+            node->next->previous = node;
             if (nodeRemove == ref) {
                 ref = node;
             }

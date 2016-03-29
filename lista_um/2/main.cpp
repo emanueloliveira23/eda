@@ -8,7 +8,7 @@ int main(int argc, const char* argv[])
 {
 
     //1.
-    println("Criando a lista encadeada...");
+    println("Criando a lista encadeada ordenada...");
     OrderedLinkedList *list = new OrderedLinkedList();
        
     //6.
